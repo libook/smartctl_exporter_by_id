@@ -66,6 +66,7 @@ func GetAll(dev *Device) *Result {
 		j.Get("ata_smart_attributes.table").ForEach(func(k, v gjson.Result) bool {
 			name := strings.ReplaceAll(strings.ToLower(v.Get("name").Str), "-", "_")
 			rawStr := v.Get("raw.string").Str
+			value := float64(v.Get("value").Int())
 
 			rawFloat, err := strconv.ParseFloat(rawStr, 64)
 			if err != nil {
@@ -76,6 +77,7 @@ func GetAll(dev *Device) *Result {
 			}
 
 			r.Attributes[name] = rawFloat
+			r.Attributes[name+"_value"] = value
 
 			if name == "total_lbas_written" {
 				r.Attributes["data_units_written"] = rawFloat
