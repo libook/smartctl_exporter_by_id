@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  smartctl_exporter:
+    image: imagelist/smartctl_exporter:latest
+    container_name: smartctl_exporter
+    privileged: true
+    user: root
+    command: >
+        --path=/metrics
+        --user=admin
+        --pass=Jokahjeechohnahl5mohTh6shesaupu6
+    ports:
+      - 9111:9111
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "1"
+    networks:
+      - prometheus
+
+networks:
+  prometheus:
+    name: prometheus
+    driver: bridge
+    ipam:
+      driver: default
+      config: []
