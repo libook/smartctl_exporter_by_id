@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"sync"
@@ -14,6 +15,12 @@ var (
 	devices    []*Device
 	results    = sync.Map{}
 	collectors = map[string]*prometheus.GaugeVec{}
+
+	_flags = Flags{}
+
+	AppName   = "smartctl_exporter"
+	Version   = ""
+	BuildDate = ""
 )
 
 func WithMetrics(handler http.Handler) http.HandlerFunc {
@@ -31,6 +38,7 @@ func WithMetrics(handler http.Handler) http.HandlerFunc {
 
 		for _, d := range devices {
 			if r, ok := results.Load(d.Name); ok {
+
 				r := r.(*Result)
 				passed := 0
 				if r.Passed {
@@ -62,6 +70,19 @@ func WithMetrics(handler http.Handler) http.HandlerFunc {
 }
 
 func main() {
+	_flags.init()
+
+	if *_flags.Version {
+		fmt.Printf(
+			"%s\n"+
+				"Version: \t%s\n"+
+				"Build date: \t%s\n",
+			AppName,
+			Version,
+			BuildDate)
+		return
+	}
+
 	devices = GetDevices()
 
 	deviceStatusCollector := promauto.NewGaugeVec(
@@ -80,6 +101,17 @@ func main() {
 	collectors["device_status"] = deviceStatusCollector
 
 	promHandler := promhttp.Handler()
-	http.HandleFunc("/scrape", WithMetrics(promHandler))
-	log.Fatal(http.ListenAndServe(":9111", nil))
+
+	hf := WithMetrics(promHandler)
+
+	if !*_flags.disableAuth {
+		hf = BasicAuth(hf)
+	}
+
+	http.HandleFunc(*_flags.Path, hf)
+
+	addr := fmt.Sprintf("%s:%d", *_flags.Address, *_flags.Port)
+
+	log.Printf("Listen: %s\n", addr)
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
