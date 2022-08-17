@@ -1,16 +1,16 @@
 # smartctl_exporter
 
-[![Docker Image Size](https://badgen.net/docker/size/ctrysbita/smartctl_exporter?icon=docker&label=image%20size)](https://hub.docker.com/r/ctrysbita/smartctl_exporter)
+[![Docker Image Size](https://badgen.net/docker/size/imagelist/smartctl_exporter?icon=docker&label=image%20size)](https://hub.docker.com/r/imagelist/smartctl_exporter)
 
 Prometheus exporter for [smartmontools](https://www.smartmontools.org/) to export the S.M.A.R.T. attributes.
 
 ## Deployment
 
 ```sh
-docker run --detach --privileged -p 9111:9111 ctrysbita/smartctl_exporter:latest
+docker run --detach --privileged -p 9111:9111 imagelist/smartctl_exporter:latest
 ```
 
-Metrics will be available at http://localhost:9111/scrape
+Metrics will be available at http://localhost:9111/metrics
 
 ## Grafana Dashboard
 
