@@ -9,7 +9,7 @@ services:
     command: >
         --path=/metrics
         --user=admin
-        --pass=Jokahjeechohnahl5mohTh6shesaupu6
+        --pass=changeme
     ports:
       - 9111:9111
     restart: always
