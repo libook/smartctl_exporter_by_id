@@ -19,7 +19,7 @@ RUN go build -o /go/bin/smartctl_exporter_by_id -ldflags "-w -s -X main.Version=
 ##
 FROM alpine:latest
 
-RUN apk add --no-cache smartmontools
+RUN apk add --no-cache smartmontools lsblk
 
 WORKDIR /opt/app/
 
