@@ -7,7 +7,7 @@ Prometheus exporter for [smartmontools](https://www.smartmontools.org/) to expor
 ## Deployment
 
 ```sh
-docker run --detach --privileged -p 9111:9111 libook/smartctl_exporter_by_id:latest
+docker run --detach --privileged -p 9111:9111 --name smartctl_exporter_by_id -v /dev:/dev:ro libook/smartctl_exporter_by_id:latest
 ```
 
 Metrics will be available at http://localhost:9111/metrics
