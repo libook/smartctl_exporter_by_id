@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -22,13 +25,16 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 176,
-  "iteration": 1660664588942,
+  "id": 7,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -37,10 +43,23 @@
       },
       "id": 8,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "General",
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -85,11 +104,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "builder",
           "exemplar": false,
@@ -105,6 +125,10 @@
       "type": "stat"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -113,15 +137,42 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto"
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Bad"
+                },
+                "1": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "OK"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 1
               }
             ]
           }
@@ -134,8 +185,11 @@
             },
             "properties": [
               {
-                "id": "custom.displayMode",
-                "value": "color-background"
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "color-background"
+                }
               },
               {
                 "id": "thresholds",
@@ -169,7 +223,10 @@
       },
       "id": 6,
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
+          "enablePagination": false,
           "fields": "",
           "reducer": [
             "sum"
@@ -178,11 +235,12 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -203,16 +261,18 @@
             "excludeByName": {
               "Time": true,
               "__name__": true,
-              "job": true
+              "job": true,
+              "label_path": false
             },
             "indexByName": {
               "Time": 0,
-              "Value": 8,
+              "Value": 9,
               "__name__": 1,
-              "device": 4,
+              "device": 3,
               "firmware_version": 6,
-              "instance": 3,
+              "instance": 4,
               "job": 2,
+              "label_path": 8,
               "model_name": 5,
               "serial_number": 7
             },
@@ -231,6 +291,10 @@
       "type": "table"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -275,11 +339,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "expr": "sum(smartctl_device_status{instance=~\"$instance\"}) - sum(smartctl_device_status{instance=~\"$instance\"})",
           "refId": "A"
@@ -289,12 +354,18 @@
       "type": "stat"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -363,7 +434,8 @@
             "last"
           ],
           "displayMode": "table",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -373,7 +445,8 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -390,6 +463,10 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -398,7 +475,10 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto"
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -413,7 +493,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -425,7 +506,9 @@
       },
       "id": 30,
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "fields": "",
           "reducer": [
             "sum"
@@ -434,14 +517,16 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
+          "editorMode": "code",
           "exemplar": false,
-          "expr": "(smartctl_data_units_written{instance=~\"$instance\", device=~\".*nvme.*\", device=~\"$device\"}*512000/1099511627776) or (smartctl_data_units_written{instance=~\"$instance\", device=~\"$device\"}*512/1099511627776)",
+          "expr": "(smartctl_data_units_written{instance=~\"$instance\", device=~\".*nvme.*\", device=~\"$device\"}*512*1024) or (smartctl_data_units_written{instance=~\"$instance\", device=~\"$device\"}*512)",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -449,7 +534,7 @@
           "refId": "A"
         }
       ],
-      "title": "TBW",
+      "title": "Data Written",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -458,7 +543,7 @@
               "names": [
                 "device",
                 "instance",
-                "Value #A"
+                "Value"
               ]
             }
           }
@@ -468,11 +553,12 @@
           "options": {
             "excludeByName": {},
             "indexByName": {
-              "Value #A": 2,
-              "device": 1,
-              "instance": 0
+              "Value": 2,
+              "device": 0,
+              "instance": 1
             },
             "renameByName": {
+              "Value": "",
               "Value #A": "TBW",
               "device": "Disk",
               "instance": "Host"
@@ -483,6 +569,10 @@
       "type": "table"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -491,11 +581,15 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto"
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
           },
+          "decimals": 0,
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "green",
@@ -519,7 +613,9 @@
       },
       "id": 31,
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "fields": "",
           "reducer": [
             "sum"
@@ -528,14 +624,16 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
+          "editorMode": "code",
           "exemplar": false,
-          "expr": "smartctl_percentage_used{instance=~\"$instance\", device=~\".*nvme.*\", device=~\"$device\"} or 100 - smartctl_wear_leveling_count_value{instance=~\"$instance\", device=~\"$device\"}",
+          "expr": "smartctl_percentage_used{instance=~\"$instance\", device=~\"nvme-.*\", device=~\"$device\"} or 100 - smartctl_wear_leveling_count_value{instance=~\"$instance\", device=~\"$device\"}",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -543,7 +641,7 @@
           "refId": "A"
         }
       ],
-      "title": "Percentage used",
+      "title": "SSD Percentage used",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -552,7 +650,7 @@
               "names": [
                 "device",
                 "instance",
-                "Value #A"
+                "Value"
               ]
             }
           }
@@ -574,6 +672,10 @@
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -582,10 +684,23 @@
       },
       "id": 16,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Healthy",
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -634,13 +749,15 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true
+        "showUnfilled": true,
+        "valueMode": "color"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -656,6 +773,10 @@
       "type": "bargauge"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -704,17 +825,19 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true
+        "showUnfilled": true,
+        "valueMode": "color"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "exemplar": false,
-          "expr": "smartctl_spin_up_time{device=~\"$device\", instance=~\"$instance\"}",
+          "expr": "smartctl_spin_up_time_value{device=~\"$device\", instance=~\"$instance\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{instance}} {{device}}",
@@ -726,6 +849,10 @@
       "type": "bargauge"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -774,13 +901,15 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true
+        "showUnfilled": true,
+        "valueMode": "color"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "builder",
           "exemplar": false,
@@ -796,6 +925,10 @@
       "type": "bargauge"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -844,13 +977,15 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true
+        "showUnfilled": true,
+        "valueMode": "color"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "builder",
           "exemplar": false,
@@ -867,6 +1002,10 @@
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -875,10 +1014,23 @@
       },
       "id": 20,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Errors",
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -927,16 +1079,18 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true
+        "showUnfilled": true,
+        "valueMode": "color"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "code",
-          "expr": "smartctl_raw_read_error_rate{ instance=~\"$instance\", device=~\"$device\" }",
+          "expr": "floor((smartctl_raw_read_error_rate{ instance=~\"$instance\", device=~\"$device\" } and smartctl_raw_read_error_rate{device=~\"^ata-ST.*\" } )/4294967296) or smartctl_raw_read_error_rate{ instance=~\"$instance\", device=~\"$device\" }",
           "legendFormat": "{{instance}} {{device}}",
           "range": true,
           "refId": "A"
@@ -946,6 +1100,10 @@
       "type": "bargauge"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -994,16 +1152,18 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true
+        "showUnfilled": true,
+        "valueMode": "color"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
-          "editorMode": "builder",
-          "expr": "smartctl_seek_error_rate{instance=~\"$instance\", device=~\"$device\"}",
+          "editorMode": "code",
+          "expr": "floor((smartctl_seek_error_rate{ instance=~\"$instance\", device=~\"$device\" } and smartctl_seek_error_rate{device=~\"^ata-ST.*\" } )/4294967296) or smartctl_seek_error_rate{ instance=~\"$instance\", device=~\"$device\" }",
           "legendFormat": "{{instance}} {{device}}",
           "range": true,
           "refId": "A"
@@ -1013,6 +1173,10 @@
       "type": "bargauge"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1061,13 +1225,15 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true
+        "showUnfilled": true,
+        "valueMode": "color"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "builder",
           "expr": "smartctl_udma_crc_error_count{instance=~\"$instance\", device=~\"$device\"}",
@@ -1080,6 +1246,10 @@
       "type": "bargauge"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1128,13 +1298,15 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true
+        "showUnfilled": true,
+        "valueMode": "color"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus"
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -1149,8 +1321,8 @@
       "type": "bargauge"
     }
   ],
-  "refresh": false,
-  "schemaVersion": 33,
+  "refresh": "5s",
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [
     "prometheus"
@@ -1166,6 +1338,10 @@
           "value": [
             "$__all"
           ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
         },
         "definition": "label_values(smartctl_device_status, instance) ",
         "hide": 0,
@@ -1193,6 +1369,10 @@
             "$__all"
           ]
         },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+        },
         "definition": "label_values(smartctl_device_status, device)",
         "hide": 0,
         "includeAll": true,
@@ -1219,6 +1399,6 @@
   "timezone": "",
   "title": "S.M.A.R.T.",
   "uid": "3UHFZvwnk",
-  "version": 7,
+  "version": 12,
   "weekStart": ""
 }
