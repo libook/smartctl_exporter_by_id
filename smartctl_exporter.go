@@ -45,7 +45,7 @@ func WithMetrics(handler http.Handler) http.HandlerFunc {
 					passed = 1
 				}
 				collectors["device_status"].
-					WithLabelValues(d.Name, r.ModelName, r.SerialNumber, r.FirmwareVersion).
+					WithLabelValues(d.Name, r.ModelName, r.SerialNumber, r.FirmwareVersion, d.LabelPath).
 					Set(float64(passed))
 
 				for k, v := range r.Attributes {
@@ -56,11 +56,11 @@ func WithMetrics(handler http.Handler) http.HandlerFunc {
 								Namespace: "smartctl",
 								Name:      k,
 							},
-							[]string{"device"},
+							[]string{"device", "label_path"},
 						)
 						collectors[k] = c
 					}
-					c.WithLabelValues(d.Name).Set(v)
+					c.WithLabelValues(d.Name, d.LabelPath).Set(v)
 				}
 			}
 		}
@@ -96,6 +96,7 @@ func main() {
 			"model_name",
 			"serial_number",
 			"firmware_version",
+			"label_path",
 		},
 	)
 	collectors["device_status"] = deviceStatusCollector
