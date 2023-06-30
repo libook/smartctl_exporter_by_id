@@ -1,4 +1,4 @@
-VERSION     = 1.0.2
+VERSION     = 1.0.0
 BUILD_DATE  = $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 .PHONY: build
