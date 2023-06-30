@@ -1,4 +1,4 @@
-module github.com/ctrysbita/smartctl_exporter
+module github.com/libook/smartctl_exporter_by_id
 
 go 1.18
 

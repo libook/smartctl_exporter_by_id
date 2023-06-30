@@ -1,9 +1,9 @@
 version: "3.7"
 
 services:
-  smartctl_exporter:
-    image: imagelist/smartctl_exporter:latest
-    container_name: smartctl_exporter
+  smartctl_exporter_by_id:
+    image: libook/smartctl_exporter_by_id:latest
+    container_name: smartctl_exporter_by_id
     privileged: true
     user: root
     command: >

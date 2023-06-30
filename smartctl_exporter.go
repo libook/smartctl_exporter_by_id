@@ -18,7 +18,7 @@ var (
 
 	_flags = Flags{}
 
-	AppName   = "smartctl_exporter"
+	AppName   = "smartctl_exporter_by_id"
 	Version   = ""
 	BuildDate = ""
 )

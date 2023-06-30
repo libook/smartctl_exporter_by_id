@@ -8,13 +8,13 @@ build:
 		--rm --compress \
 		--build-arg VERSION="$(VERSION)" \
 		--build-arg BUILD_DATE="$(BUILD_DATE)" \
-		--tag imagelist/smartctl_exporter:latest \
-		--tag imagelist/smartctl_exporter:$(VERSION) \
+		--tag libook/smartctl_exporter_by_id:latest \
+		--tag libook/smartctl_exporter_by_id:$(VERSION) \
 		.
 
 build_go:
-	go build -o smartctl_exporter -ldflags "-w -s -X main.Version=${VERSION} -X main.BuildDate=${BUILD_DATE}"
+	go build -o smartctl_exporter_by_id -ldflags "-w -s -X main.Version=${VERSION} -X main.BuildDate=${BUILD_DATE}"
 
 push:
-	docker push imagelist/smartctl_exporter:latest
-	docker push imagelist/smartctl_exporter:$(VERSION)
+	docker push libook/smartctl_exporter_by_id:latest
+	docker push libook/smartctl_exporter_by_id:$(VERSION)

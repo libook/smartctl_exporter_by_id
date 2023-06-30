@@ -1,13 +1,13 @@
-# smartctl_exporter
+# smartctl_exporter_by_id
 
-[![Docker Image Size](https://badgen.net/docker/size/imagelist/smartctl_exporter?icon=docker&label=image%20size)](https://hub.docker.com/r/imagelist/smartctl_exporter)
+[![Docker Image Size](https://badgen.net/docker/size/libook/smartctl_exporter_by_id?icon=docker&label=image%20size)](https://hub.docker.com/r/libook/smartctl_exporter_by_id)
 
 Prometheus exporter for [smartmontools](https://www.smartmontools.org/) to export the S.M.A.R.T. attributes.
 
 ## Deployment
 
 ```sh
-docker run --detach --privileged -p 9111:9111 imagelist/smartctl_exporter:latest
+docker run --detach --privileged -p 9111:9111 libook/smartctl_exporter_by_id:latest
 ```
 
 Metrics will be available at http://localhost:9111/metrics
