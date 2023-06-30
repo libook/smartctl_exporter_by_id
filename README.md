@@ -29,4 +29,4 @@ Metrics will be available at http://localhost:9111/metrics
 
 ## Grafana Dashboard
 
-![](https://user-images.githubusercontent.com/8357481/164513823-175e1d32-2ba1-41a8-a7f4-76b1b5f07f09.png)
+![](https://github.com/libook/smartctl_exporter_by_id/assets/3395610/e389adfb-6e14-430b-b8db-426c328aefb4)
