@@ -27,14 +27,9 @@
   "graphTooltip": 0,
   "id": 7,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -43,15 +38,6 @@
       },
       "id": 8,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "General",
       "type": "row"
     },
@@ -72,7 +58,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -95,6 +81,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -102,16 +89,18 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "12.2.0-258092",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "exemplar": false,
           "expr": "sum(smartctl_device_status)",
           "instant": true,
@@ -164,7 +153,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -198,7 +187,7 @@
                   "steps": [
                     {
                       "color": "orange",
-                      "value": null
+                      "value": 0
                     },
                     {
                       "color": "red",
@@ -235,7 +224,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "12.2.0-258092",
       "targets": [
         {
           "datasource": {
@@ -244,7 +233,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "smartctl_device_status{ instance=~\"$instance\", device=~\"$device\" }",
+          "expr": "smartctl_device_status{ host=~\"$host\", device=~\"$device\" }",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -261,6 +250,7 @@
             "excludeByName": {
               "Time": true,
               "__name__": true,
+              "instance": true,
               "job": true,
               "label_path": false
             },
@@ -270,7 +260,7 @@
               "__name__": 1,
               "device": 3,
               "firmware_version": 6,
-              "instance": 4,
+              "host": 4,
               "job": 2,
               "label_path": 8,
               "model_name": 5,
@@ -280,11 +270,22 @@
               "Value": "OK",
               "device": "Device",
               "firmware_version": "FW Version",
-              "instance": "Host",
+              "host": "Host",
               "job": "",
               "model_name": "Model",
               "serial_number": "Serial"
             }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "OK"
+              }
+            ]
           }
         }
       ],
@@ -307,7 +308,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -330,6 +331,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -337,16 +339,18 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "12.2.0-258092",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
-          "expr": "sum(smartctl_device_status{instance=~\"$instance\"}) - sum(smartctl_device_status{instance=~\"$instance\"})",
+          "expr": "sum(smartctl_device_status{host=~\"$host\"}) - sum(smartctl_device_status{host=~\"$host\"})",
           "refId": "A"
         }
       ],
@@ -364,11 +368,13 @@
             "mode": "thresholds"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -377,7 +383,8 @@
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
             "lineStyle": {
               "fill": "solid"
             },
@@ -402,7 +409,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "orange",
@@ -416,15 +423,45 @@
           },
           "unit": "celsius"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*nvme.*/"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "semi-dark-orange",
+                      "value": 65
+                    },
+                    {
+                      "color": "semi-dark-red",
+                      "value": 70
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 9
       },
       "id": 12,
+      "maxDataPoints": 128,
       "options": {
         "legend": {
           "calcs": [
@@ -434,14 +471,16 @@
             "last"
           ],
           "displayMode": "table",
-          "placement": "bottom",
+          "placement": "right",
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.2.0-258092",
       "targets": [
         {
           "datasource": {
@@ -450,16 +489,124 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "smartctl_temperature{ instance=~\"$instance\", device=~\"$device\" }",
+          "expr": "smartctl_temperature{ host=~\"$host\", device=~\"$device\" }",
           "format": "time_series",
           "instant": false,
           "interval": "",
-          "legendFormat": "{{instance}} {{device}}",
+          "legendFormat": "{{host}} {{device}}",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Temperature",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 6,
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "id": 32,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Last *",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.0-258092",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(smartctl_data_units_written{host=~\"$host\", device=~\".*nvme.*\", device=~\"$device\"}*512*1024) or (smartctl_data_units_written{host=~\"$host\", device=~\"$device\"}*512)",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{device}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Data Written",
       "type": "timeseries"
     },
     {
@@ -478,113 +625,8 @@
             "cellOptions": {
               "type": "auto"
             },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 12,
-        "y": 9
-      },
-      "id": 30,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true
-      },
-      "pluginVersion": "10.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "(smartctl_data_units_written{instance=~\"$instance\", device=~\".*nvme.*\", device=~\"$device\"}*512*1024) or (smartctl_data_units_written{instance=~\"$instance\", device=~\"$device\"}*512)",
-          "format": "table",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Data Written",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "device",
-                "instance",
-                "Value"
-              ]
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "indexByName": {
-              "Value": 2,
-              "device": 0,
-              "instance": 1
-            },
-            "renameByName": {
-              "Value": "",
-              "Value #A": "TBW",
-              "device": "Disk",
-              "instance": "Host"
-            }
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
+            "inspect": false,
+            "minWidth": 50
           },
           "decimals": 0,
           "mappings": [],
@@ -593,7 +635,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -603,13 +645,128 @@
           },
           "unit": "percent"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Percentage Used"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "from": 0,
+                      "result": {
+                        "color": "semi-dark-green",
+                        "index": 0
+                      },
+                      "to": 79.999999
+                    },
+                    "type": "range"
+                  },
+                  {
+                    "options": {
+                      "from": 80,
+                      "result": {
+                        "color": "semi-dark-orange",
+                        "index": 1
+                      },
+                      "to": 100
+                    },
+                    "type": "range"
+                  },
+                  {
+                    "options": {
+                      "from": 100.000001,
+                      "result": {
+                        "color": "semi-dark-red",
+                        "index": 2
+                      },
+                      "to": 1000
+                    },
+                    "type": "range"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Available Spare"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "100": {
+                        "color": "semi-dark-green",
+                        "index": 0
+                      }
+                    },
+                    "type": "value"
+                  },
+                  {
+                    "options": {
+                      "from": 50,
+                      "result": {
+                        "color": "semi-dark-orange",
+                        "index": 1
+                      },
+                      "to": 99.999999
+                    },
+                    "type": "range"
+                  },
+                  {
+                    "options": {
+                      "from": 0,
+                      "result": {
+                        "color": "semi-dark-red",
+                        "index": 2
+                      },
+                      "to": 49.999999
+                    },
+                    "type": "range"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ID"
+            },
+            "properties": [
+              {
+                "id": "custom.minWidth",
+                "value": 400
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 18,
-        "y": 9
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 17
       },
       "id": 31,
       "options": {
@@ -624,7 +781,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "12.2.0-258092",
       "targets": [
         {
           "datasource": {
@@ -633,24 +790,61 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "smartctl_percentage_used{instance=~\"$instance\", device=~\"nvme-.*\", device=~\"$device\"} or 100 - smartctl_wear_leveling_count_value{instance=~\"$instance\", device=~\"$device\"}",
+          "expr": "smartctl_percentage_used{host=~\"$host\", device=~\"nvme-.*\", device=~\"$device\"} or 100 - smartctl_wear_leveling_count_value{host=~\"$host\", device=~\"$device\"}",
           "format": "table",
           "instant": true,
           "interval": "",
-          "legendFormat": "",
-          "refId": "A"
+          "legendFormat": "{{device}}",
+          "refId": "Percentage_used"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "smartctl_available_spare{device=~\"$device\", host=~\"$host\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "{{device}}",
+          "range": false,
+          "refId": "Available_spare"
         }
       ],
-      "title": "SSD Percentage used",
+      "title": "SSD Healthy",
       "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "byVariable": false,
+            "include": {
+              "names": [
+                "device",
+                "Value #Percentage_used",
+                "Value #Available_spare",
+                "host"
+              ]
+            }
+          }
+        },
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "device",
+            "mode": "outerTabular"
+          }
+        },
         {
           "id": "filterFieldsByName",
           "options": {
             "include": {
               "names": [
                 "device",
-                "instance",
-                "Value"
+                "host",
+                "Value #Percentage_used",
+                "Value #Available_spare"
               ]
             }
           }
@@ -658,13 +852,28 @@
         {
           "id": "organize",
           "options": {
-            "excludeByName": {},
+            "excludeByName": {
+              "host 2": true
+            },
+            "includeByName": {},
             "indexByName": {},
             "renameByName": {
-              "Value #A": "Used",
-              "device": "Disk",
-              "instance": "Host"
+              "Value #Available_spare": "Available Spare",
+              "Value #Percentage_used": "Percentage Used",
+              "device": "ID",
+              "host": "Host"
             }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Available Spare"
+              }
+            ]
           }
         }
       ],
@@ -672,27 +881,14 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 17
+        "y": 26
       },
       "id": 16,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Healthy",
       "type": "row"
     },
@@ -713,8 +909,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "orange",
@@ -731,28 +926,31 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 6,
         "w": 12,
         "x": 0,
-        "y": 18
+        "y": 27
       },
       "id": 18,
       "options": {
         "displayMode": "gradient",
+        "maxVizHeight": 20,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
           "fields": "",
-          "values": false
+          "values": true
         },
         "showUnfilled": true,
+        "sizing": "manual",
         "valueMode": "color"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
@@ -761,15 +959,66 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "smartctl_power_on_hours{ device=~\"$device\", instance=~\"$instance\" }",
+          "expr": "smartctl_power_on_hours{ device=~\"$device\", host=~\"$host\" }",
+          "format": "table",
           "instant": true,
           "interval": "",
-          "legendFormat": "{{instance}} {{device}}",
+          "legendFormat": "{{host}} {{device}}",
           "range": false,
           "refId": "A"
         }
       ],
       "title": "Power On Hours",
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "Time",
+            "mode": "outer"
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "Value",
+                "host"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "Value": 2,
+              "device": 1,
+              "host": 0
+            },
+            "renameByName": {
+              "Value": "",
+              "device": "ID",
+              "host": "Host"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value"
+              }
+            ]
+          }
+        }
+      ],
       "type": "bargauge"
     },
     {
@@ -789,8 +1038,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "orange",
@@ -807,28 +1055,31 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 6,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 27
       },
       "id": 27,
       "options": {
         "displayMode": "gradient",
+        "maxVizHeight": 20,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
           "fields": "",
-          "values": false
+          "values": true
         },
         "showUnfilled": true,
+        "sizing": "manual",
         "valueMode": "color"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
@@ -837,15 +1088,58 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "smartctl_spin_up_time_value{device=~\"$device\", instance=~\"$instance\"}",
+          "expr": "smartctl_spin_up_time_value{device=~\"$device\", host=~\"$host\"}",
+          "format": "table",
           "instant": true,
           "interval": "",
-          "legendFormat": "{{instance}} {{device}}",
+          "legendFormat": "{{host}} {{device}}",
           "range": false,
           "refId": "A"
         }
       ],
       "title": "Spin Up Time",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "host",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "Value": 2,
+              "device": 1,
+              "host": 0
+            },
+            "renameByName": {
+              "device": "ID",
+              "host": "Host"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value"
+              }
+            ]
+          }
+        }
+      ],
       "type": "bargauge"
     },
     {
@@ -865,8 +1159,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "orange",
@@ -886,25 +1179,28 @@
         "h": 4,
         "w": 12,
         "x": 0,
-        "y": 22
+        "y": 33
       },
       "id": 28,
       "options": {
         "displayMode": "lcd",
+        "maxVizHeight": 20,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
           "fields": "",
-          "values": false
+          "values": true
         },
         "showUnfilled": true,
+        "sizing": "manual",
         "valueMode": "color"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
@@ -913,15 +1209,58 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "smartctl_power_cycle_count{device=~\"$device\", instance=~\"$instance\"}",
+          "expr": "smartctl_power_cycle_count{device=~\"$device\", host=~\"$host\"}",
+          "format": "table",
           "instant": true,
           "interval": "",
-          "legendFormat": "{{instance}} {{device}}",
+          "legendFormat": "{{host}} {{device}}",
           "range": false,
           "refId": "A"
         }
       ],
       "title": "Power Cycle Count",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "host",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "Value": 2,
+              "device": 1,
+              "host": 0
+            },
+            "renameByName": {
+              "device": "ID",
+              "host": "Host"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value"
+              }
+            ]
+          }
+        }
+      ],
       "type": "bargauge"
     },
     {
@@ -941,8 +1280,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "orange",
@@ -962,25 +1300,28 @@
         "h": 4,
         "w": 12,
         "x": 12,
-        "y": 22
+        "y": 33
       },
       "id": 25,
       "options": {
         "displayMode": "lcd",
+        "maxVizHeight": 20,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
           "fields": "",
-          "values": false
+          "values": true
         },
         "showUnfilled": true,
+        "sizing": "manual",
         "valueMode": "color"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
@@ -989,40 +1330,312 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "smartctl_power_off_retract_count{device=~\"$device\", instance=~\"$instance\"}",
+          "expr": "smartctl_power_off_retract_count{device=~\"$device\", host=~\"$host\"}",
+          "format": "table",
           "instant": true,
           "interval": "",
-          "legendFormat": "{{instance}} {{device}}",
+          "legendFormat": "{{host}} {{device}}",
           "range": false,
           "refId": "A"
         }
       ],
       "title": "Power Off Retract Count",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "host",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "Value": 2,
+              "device": 1,
+              "host": 0
+            },
+            "renameByName": {
+              "device": "ID",
+              "host": "Host"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value"
+              }
+            ]
+          }
+        }
+      ],
       "type": "bargauge"
     },
     {
-      "collapsed": false,
       "datasource": {
         "type": "prometheus",
         "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
       },
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 26
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 20,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "#EAB839",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 10
+              }
+            ]
+          }
+        },
+        "overrides": []
       },
-      "id": 20,
-      "panels": [],
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 37
+      },
+      "id": 33,
+      "options": {
+        "displayMode": "lcd",
+        "maxVizHeight": 20,
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "showUnfilled": true,
+        "sizing": "manual",
+        "valueMode": "color"
+      },
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "smartctl_current_pending_sector{host=~\"$host\", device=~\"$device\"}",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{host}} {{device}}",
+          "range": false,
           "refId": "A"
         }
       ],
+      "title": "Current Pending Sector Count",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "host",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "Value": 2,
+              "device": 1,
+              "host": 0
+            },
+            "renameByName": {
+              "device": "ID",
+              "host": "Host"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 20,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "#EAB839",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 10
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 37
+      },
+      "id": 34,
+      "options": {
+        "displayMode": "lcd",
+        "maxVizHeight": 20,
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "showUnfilled": true,
+        "sizing": "manual",
+        "valueMode": "color"
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "smartctl_offline_uncorrectable{host=~\"$host\", device=~\"$device\"}",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{host}} {{device}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Uncorrectable Sector Count",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "host",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "Value": 2,
+              "device": 1,
+              "host": 0
+            },
+            "renameByName": {
+              "device": "ID",
+              "host": "Host"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 41
+      },
+      "id": 20,
+      "panels": [],
       "title": "Errors",
       "type": "row"
     },
@@ -1044,8 +1657,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -1064,25 +1676,28 @@
         "h": 4,
         "w": 12,
         "x": 0,
-        "y": 27
+        "y": 42
       },
       "id": 22,
       "options": {
         "displayMode": "lcd",
+        "maxVizHeight": 20,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
           "fields": "",
-          "values": false
+          "values": true
         },
         "showUnfilled": true,
+        "sizing": "manual",
         "valueMode": "color"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
@@ -1090,13 +1705,58 @@
             "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "code",
-          "expr": "floor((smartctl_raw_read_error_rate{ instance=~\"$instance\", device=~\"$device\" } and smartctl_raw_read_error_rate{device=~\"^ata-ST.*\" } )/4294967296) or smartctl_raw_read_error_rate{ instance=~\"$instance\", device=~\"$device\" }",
-          "legendFormat": "{{instance}} {{device}}",
-          "range": true,
+          "exemplar": false,
+          "expr": "floor((smartctl_raw_read_error_rate{ host=~\"$host\", device=~\"$device\" } and smartctl_raw_read_error_rate{device=~\"^ata-ST.*\" } )/4294967296) or smartctl_raw_read_error_rate{ host=~\"$host\", device=~\"$device\" }",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{host}} {{device}}",
+          "range": false,
           "refId": "A"
         }
       ],
       "title": "Raw Read Error Rate",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "host",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "Value": 2,
+              "device": 1,
+              "host": 0
+            },
+            "renameByName": {
+              "device": "ID",
+              "host": "Host"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value"
+              }
+            ]
+          }
+        }
+      ],
       "type": "bargauge"
     },
     {
@@ -1117,8 +1777,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -1137,25 +1796,28 @@
         "h": 4,
         "w": 12,
         "x": 12,
-        "y": 27
+        "y": 42
       },
       "id": 26,
       "options": {
         "displayMode": "lcd",
+        "maxVizHeight": 20,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
           "fields": "",
-          "values": false
+          "values": true
         },
         "showUnfilled": true,
+        "sizing": "manual",
         "valueMode": "color"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
@@ -1163,13 +1825,58 @@
             "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "code",
-          "expr": "floor((smartctl_seek_error_rate{ instance=~\"$instance\", device=~\"$device\" } and smartctl_seek_error_rate{device=~\"^ata-ST.*\" } )/4294967296) or smartctl_seek_error_rate{ instance=~\"$instance\", device=~\"$device\" }",
-          "legendFormat": "{{instance}} {{device}}",
-          "range": true,
+          "exemplar": false,
+          "expr": "floor((smartctl_seek_error_rate{ host=~\"$host\", device=~\"$device\" } and smartctl_seek_error_rate{device=~\"^ata-ST.*\" } )/4294967296) or smartctl_seek_error_rate{ host=~\"$host\", device=~\"$device\" }",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{host}} {{device}}",
+          "range": false,
           "refId": "A"
         }
       ],
       "title": "Seek Error Rate",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "host",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "Value": 2,
+              "device": 1,
+              "host": 0
+            },
+            "renameByName": {
+              "device": "ID",
+              "host": "Host"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value"
+              }
+            ]
+          }
+        }
+      ],
       "type": "bargauge"
     },
     {
@@ -1190,8 +1897,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -1210,25 +1916,28 @@
         "h": 4,
         "w": 12,
         "x": 0,
-        "y": 31
+        "y": 46
       },
       "id": 23,
       "options": {
         "displayMode": "lcd",
+        "maxVizHeight": 20,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
           "fields": "",
-          "values": false
+          "values": true
         },
         "showUnfilled": true,
+        "sizing": "manual",
         "valueMode": "color"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
@@ -1236,13 +1945,58 @@
             "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "builder",
-          "expr": "smartctl_udma_crc_error_count{instance=~\"$instance\", device=~\"$device\"}",
-          "legendFormat": "{{instance}} {{device}}",
-          "range": true,
+          "exemplar": false,
+          "expr": "smartctl_udma_crc_error_count{host=~\"$host\", device=~\"$device\"}",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{host}} {{device}}",
+          "range": false,
           "refId": "A"
         }
       ],
       "title": "UDMA CRC Error",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "host",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "Value": 2,
+              "device": 1,
+              "host": 0
+            },
+            "renameByName": {
+              "device": "ID",
+              "host": "Host"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value"
+              }
+            ]
+          }
+        }
+      ],
       "type": "bargauge"
     },
     {
@@ -1263,8 +2017,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -1283,25 +2036,28 @@
         "h": 4,
         "w": 12,
         "x": 12,
-        "y": 31
+        "y": 46
       },
       "id": 24,
       "options": {
         "displayMode": "lcd",
+        "maxVizHeight": 20,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
           "fields": "",
-          "values": false
+          "values": true
         },
         "showUnfilled": true,
+        "sizing": "manual",
         "valueMode": "color"
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
@@ -1309,21 +2065,65 @@
             "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
           },
           "editorMode": "builder",
-          "exemplar": true,
-          "expr": "smartctl_reallocated_sector_ct{instance=~\"$instance\", device=~\"$device\"}",
+          "exemplar": false,
+          "expr": "smartctl_reallocated_sector_ct{host=~\"$host\", device=~\"$device\"}",
+          "format": "table",
+          "instant": true,
           "interval": "",
-          "legendFormat": "{{instance}} {{device}}",
-          "range": true,
+          "legendFormat": "{{host}} {{device}}",
+          "range": false,
           "refId": "A"
         }
       ],
       "title": "Reallocated Sector Count",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "host",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "Value": 2,
+              "device": 1,
+              "host": 0
+            },
+            "renameByName": {
+              "device": "ID",
+              "host": "Host"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value"
+              }
+            ]
+          }
+        }
+      ],
       "type": "bargauge"
     }
   ],
+  "preload": false,
   "refresh": "5s",
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 41,
   "tags": [
     "prometheus"
   ],
@@ -1331,10 +2131,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
@@ -1343,28 +2140,23 @@
           "type": "prometheus",
           "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
         },
-        "definition": "label_values(smartctl_device_status, instance) ",
-        "hide": 0,
+        "definition": "label_values(smartctl_device_status,host)",
         "includeAll": true,
+        "label": "Host",
         "multi": true,
-        "name": "instance",
+        "name": "host",
         "options": [],
         "query": {
-          "query": "label_values(smartctl_device_status, instance) ",
-          "refId": "StandardVariableQuery"
+          "query": "label_values(smartctl_device_status,host)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
@@ -1374,7 +2166,6 @@
           "uid": "c890e0d1-c550-4dfb-8fbd-6fd3e6773a3d"
         },
         "definition": "label_values(smartctl_device_status, device)",
-        "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "device",
@@ -1385,20 +2176,17 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "S.M.A.R.T.",
   "uid": "3UHFZvwnk",
-  "version": 12,
-  "weekStart": ""
+  "version": 42
 }
